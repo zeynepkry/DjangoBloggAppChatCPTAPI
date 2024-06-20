@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>{{ post.title }}</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+</head>
+<body>
+    <header>
+        <nav>
+            <ul>
+                <li><a href="#">Home</a></li>
+                <li><a href="#">Celebrity</a></li>
+                <li><a href="#">Technology</a></li>
+                <li><a href="#">Sample 101</a></li>
+                <li><a href="#">All Categories</a></li>
+            </ul>
+            <div class="user">
+                <span>Howdy, John Smith</span>
+                <a href="#">Logout</a>
+            </div>
+        </nav>
+    </header>
+
+    <main>
+        <h1>{{ post.title }}</h1>
+        <p>{{ post.content }}</p>
+        <a href="{% url 'index' %}">Back to Home</a>
+    </main>
+
+    <footer>
+        <p>&copy; 2024 Your Blog. All rights reserved.</p>
+    </footer>
+</body>
+</html>
