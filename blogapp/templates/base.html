@@ -1,0 +1,52 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
+    <link rel="stylesheet" href="{% static 'css/base.css' %}"> <!-- This is for the custom CSS file -->
+    {% block css_files %}{% endblock %}
+    <title>{% block title %}Myblog{% endblock %} | Blogapp</title>
+    <style>
+        .card-img-top {
+            width: 100%;
+            height: 15vw;
+            object-fit: cover;
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar navbar-dark bg-primary navbar-expand-lg">
+        <div class="container">
+            <a class="navbar-brand" href="#">Blogapp</a>
+            <ul class="navbar-nav me-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'index' %}">HOME</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'blogs' %}">Blogs</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+    <div class="container mt-3">
+        {% block title_header %}
+        {% endblock %}
+        <div class="row">
+            <div class="col-3">
+                <div class="list-group">
+                    <a class="list-group-item list-group-item-action" href="#">Programming</a>
+                    <a class="list-group-item list-group-item-action" href="#">Web programming</a>
+                    <a class="list-group-item list-group-item-action" href="#">Mobile Programming</a>
+                </div>
+            </div>
+            <div class="col-9">
+                {% block main_content %}{% endblock %}
+            </div>
+        </div>
+    </div>
+    {% block content %}{% endblock %}
+    
+    <script src="{% static 'js/bootstrap.min.js' %}"></script>
+    {% block js_files %}{% endblock %}
+</body>
+</html>
