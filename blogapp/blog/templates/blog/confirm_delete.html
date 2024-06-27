@@ -1,14 +1,12 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Delete Blog Post</title>
-</head>
-<body>
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container">
     <h1>Are you sure you want to delete "{{ post.title }}"?</h1>
     <form method="post">
         {% csrf_token %}
-        <button type="submit">Yes, delete</button>
+        <button type="submit" class="btn btn-danger">Yes, delete</button>
     </form>
-    <a href="{% url 'blog_details' post.id %}">Cancel</a>
-</body>
-</html>
+    <a href="{% url 'blog_details' post.id %}" class="btn btn-secondary">Cancel</a>
+</div>
+{% endblock %}

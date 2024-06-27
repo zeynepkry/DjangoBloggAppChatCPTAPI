@@ -1,11 +1,12 @@
 {% load static %}
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
     <link rel="stylesheet" href="{% static 'css/base.css' %}"> <!-- This is for the custom CSS file -->
     {% block css_files %}{% endblock %}
-    <title>{% block title %}Myblog{% endblock %} | Blogapp</title>
+    <title>{% block title %}Data Science Blog{% endblock %} | Blogapp</title>
     <style>
         .card-img-top {
             width: 100%;
@@ -17,7 +18,7 @@
 <body>
     <nav class="navbar navbar-dark bg-primary navbar-expand-lg">
         <div class="container">
-            <a class="navbar-brand" href="#">Blogapp</a>
+            <a class="navbar-brand" href="{% url 'index' %}">Data Science</a>
             <ul class="navbar-nav me-auto">
                 <li class="nav-item">
                     <a class="nav-link" href="{% url 'index' %}">HOME</a>
@@ -30,17 +31,20 @@
     </nav>
     <div class="container mt-3">
         {% block title_header %}
+        <h1>Data Science Insights</h1>
         {% endblock %}
         <div class="row">
             <div class="col-3">
                 <div class="list-group">
-                    <a class="list-group-item list-group-item-action" href="#">Programming</a>
-                    <a class="list-group-item list-group-item-action" href="#">Web programming</a>
-                    <a class="list-group-item list-group-item-action" href="#">Mobile Programming</a>
+                    {% for category in categories %}
+                    <a class="list-group-item list-group-item-action" href="{% url 'category_posts' category.id %}">{{ category.name }}</a>
+                    {% endfor %}
                 </div>
             </div>
             <div class="col-9">
-                {% block main_content %}{% endblock %}
+                {% block main_content %}
+                <!-- Main content updates dynamically based on the topic selected from the sidebar -->
+                {% endblock %}
             </div>
         </div>
     </div>
