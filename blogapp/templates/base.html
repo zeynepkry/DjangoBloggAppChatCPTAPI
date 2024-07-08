@@ -1,5 +1,4 @@
 {% load static %}
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -18,38 +17,29 @@
 <body>
     <nav class="navbar navbar-dark bg-primary navbar-expand-lg">
         <div class="container">
-            <a class="navbar-brand" href="{% url 'index' %}">Data Science</a>
+            <a class="navbar-brand" href="#">DATA SCIENCE </a>
             <ul class="navbar-nav me-auto">
                 <li class="nav-item">
                     <a class="nav-link" href="{% url 'index' %}">HOME</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="{% url 'blogs' %}">Blogs</a>
+                    <a class="nav-link" href="{% url 'blogs' %}">BLOGS</a>
                 </li>
             </ul>
         </div>
     </nav>
     <div class="container mt-3">
         {% block title_header %}
-        <h1>Data Science Insights</h1>
         {% endblock %}
         <div class="row">
-            <div class="col-3">
-                <div class="list-group">
-                    {% for category in categories %}
-                    <a class="list-group-item list-group-item-action" href="{% url 'category_posts' category.id %}">{{ category.name }}</a>
-                    {% endfor %}
-                </div>
-            </div>
+            
             <div class="col-9">
-                {% block main_content %}
-                <!-- Main content updates dynamically based on the topic selected from the sidebar -->
-                {% endblock %}
+                {% block main_content %}{% endblock %}
             </div>
         </div>
     </div>
     {% block content %}{% endblock %}
-    
+
     <script src="{% static 'js/bootstrap.min.js' %}"></script>
     {% block js_files %}{% endblock %}
 </body>

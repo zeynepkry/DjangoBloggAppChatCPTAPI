@@ -1,16 +1,51 @@
 {% extends 'base.html' %}
+{% block title %}Create Post{% endblock %}
+{% block main_content %}
+<div class="row">
+    <div class="col-3">
+        <div class="list-group" id="category-list">
+            {% for category in categories %}
+            <a class="list-group-item list-group-item-action" href="#" data-category-id="{{ category.id }}">{{ category.name }}</a>
+            {% endfor %}
+        </div>
+    </div>
+    <div class="col-9">
+        <form method="post">
+            {% csrf_token %}
+            <div class="mb-3">
+                <label for="title" class="form-label">Title</label>
+                <input type="text" class="form-control" id="title" name="title" required>
+            </div>
+            <div class="mb-3">
+                <label for="content" class="form-label">Content</label>
+                <textarea class="form-control" id="content" name="content" rows="5" required></textarea>
+            </div>
+            <div class="mb-3">
+                <label for="category" class="form-label">Category</label>
+                <select class="form-control" id="category" name="category" required>
+                    <option value="" selected disabled>Select a category</option>
+                    {% for category in categories %}
+                    <option value="{{ category.id }}">{{ category.name }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <button type="submit" class="btn btn-primary">Create</button>
+        </form>
+    </div>
+</div>
 
-{% block content %}
-<form method="post" action="{% url 'create_post' %}">
-    {% csrf_token %}
-    <div class="form-group">
-        <label for="title">Title:</label>
-        <input type="text" class="form-control" id="title" name="title">
-    </div>
-    <div class="form-group">
-        <label for="content">Content:</label>
-        <textarea class="form-control" id="content" name="content"></textarea>
-    </div>
-    <button type="submit" class="btn btn-success">Create Post</button>
-</form>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const categoryLinks = document.querySelectorAll('#category-list a');
+        const categorySelect = document.getElementById('category');
+
+        categoryLinks.forEach(link => {
+            link.addEventListener('click', function(event) {
+                event.preventDefault();
+                const categoryId = this.getAttribute('data-category-id');
+                categorySelect.value = categoryId;
+            });
+        });
+    });
+</script>
 {% endblock %}

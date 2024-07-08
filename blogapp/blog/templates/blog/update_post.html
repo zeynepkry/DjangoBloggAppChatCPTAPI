@@ -1,16 +1,24 @@
 {% extends 'base.html' %}
-
-{% block content %}
-<form method="post" action="{% url 'update_post' post.id %}">
+{% block title %}Update Post{% endblock %}
+{% block main_content %}
+<form method="post">
     {% csrf_token %}
-    <div class="form-group">
-        <label for="title">Title:</label>
-        <input type="text" class="form-control" id="title" name="title" value="{{ post.title }}">
+    <div class="mb-3">
+        <label for="title" class="form-label">Title</label>
+        <input type="text" class="form-control" id="title" name="title" value="{{ post.title }}" required>
     </div>
-    <div class="form-group">
-        <label for="content">Content:</label>
-        <textarea class="form-control" id="content" name="content">{{ post.content }}</textarea>
+    <div class="mb-3">
+        <label for="content" class="form-label">Content</label>
+        <textarea class="form-control" id="content" name="content" rows="5" required>{{ post.content }}</textarea>
     </div>
-    <button type="submit" class="btn btn-warning">Update Post</button>
+    <div class="mb-3">
+        <label for="category" class="form-label">Category</label>
+        <select class="form-control" id="category" name="category" required>
+            {% for category in categories %}
+            <option value="{{ category.id }}" {% if category.id == post.category.id %}selected{% endif %}>{{ category.name }}</option>
+            {% endfor %}
+        </select>
+    </div>
+    <button type="submit" class="btn btn-primary">Update</button>
 </form>
 {% endblock %}
