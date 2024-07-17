@@ -13,8 +13,31 @@
 
 {% block main_content %}
 <p>Welcome to the Home Page!</p>
-{% endblock %}
 
+<div class="container mt-5">
+    <h1>Ask ChatGPT</h1>
+    <form method="post" action="{% url 'chatgpt' %}">
+        {% csrf_token %}
+        <div class="form-group">
+            <label for="prompt">Enter your prompt:</label>
+            <textarea id="prompt" name="prompt" class="form-control" rows="4" placeholder="Ask ChatGPT..."></textarea>
+        </div>
+        <br>
+        <button type="submit" class="btn btn-primary">Submit</button>
+    </form>
+
+    {% if response %}
+        <div class="mt-4">
+            <h2>Response:</h2>
+            <div class="card">
+                <div class="card-body">
+                    <p>{{ response }}</p>
+                </div>
+            </div>
+        </div>
+    {% endif %}
+</div>
+{% endblock %}
 
 {% block js_files %} 
     <script src="{% static 'js/script.js' %}"></script>
