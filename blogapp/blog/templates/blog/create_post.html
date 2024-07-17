@@ -1,51 +1,46 @@
 {% extends 'base.html' %}
-{% block title %}Create Post{% endblock %}
+{% load static %}
+
+{% block css_files %}
+    <link rel="stylesheet" href="{% static 'css/base.css' %}">
+{% endblock %}
+
+{% block title %}Create New Post{% endblock %}
+
+{% block title_header %}
+<h1 class="text-center">Create New Post</h1>
+{% endblock %}
+
 {% block main_content %}
-<div class="row">
-    <div class="col-3">
-        <div class="list-group" id="category-list">
-            {% for category in categories %}
-            <a class="list-group-item list-group-item-action" href="#" data-category-id="{{ category.id }}">{{ category.name }}</a>
-            {% endfor %}
+<div class="container mt-5">
+    <form method="post">
+        {% csrf_token %}
+        <div class="form-group">
+            <label for="title">Title</label>
+            <input type="text" id="title" name="title" class="form-control" value="{{ request.POST.title }}">
         </div>
-    </div>
-    <div class="col-9">
-        <form method="post">
-            {% csrf_token %}
-            <div class="mb-3">
-                <label for="title" class="form-label">Title</label>
-                <input type="text" class="form-control" id="title" name="title" required>
-            </div>
-            <div class="mb-3">
-                <label for="content" class="form-label">Content</label>
-                <textarea class="form-control" id="content" name="content" rows="5" required></textarea>
-            </div>
-            <div class="mb-3">
-                <label for="category" class="form-label">Category</label>
-                <select class="form-control" id="category" name="category" required>
-                    <option value="" selected disabled>Select a category</option>
-                    {% for category in categories %}
+        <div class="form-group">
+            <label for="category">Category</label>
+            <select id="category" name="category" class="form-control">
+                <option value="">Select a category</option>
+                {% for category in categories %}
                     <option value="{{ category.id }}">{{ category.name }}</option>
-                    {% endfor %}
-                </select>
+                {% endfor %}
+            </select>
+        </div>
+        <button type="submit" name="action" value="generate" class="btn btn-primary">Generate Content</button>
+        {% if generated_content %}
+            <div class="mt-4">
+                <h2>Generated Content</h2>
+                <textarea class="form-control" rows="10" readonly>{{ generated_content }}</textarea>
+                <input type="hidden" name="content" value="{{ generated_content }}">
+                <button type="submit" name="action" value="create" class="btn btn-success mt-3">Create Post</button>
             </div>
-            <button type="submit" class="btn btn-primary">Create</button>
-        </form>
-    </div>
+        {% endif %}
+    </form>
 </div>
+{% endblock %}
 
-<script>
-    document.addEventListener('DOMContentLoaded', function() {
-        const categoryLinks = document.querySelectorAll('#category-list a');
-        const categorySelect = document.getElementById('category');
-
-        categoryLinks.forEach(link => {
-            link.addEventListener('click', function(event) {
-                event.preventDefault();
-                const categoryId = this.getAttribute('data-category-id');
-                categorySelect.value = categoryId;
-            });
-        });
-    });
-</script>
+{% block js_files %}
+    <script src="{% static 'js/script.js' %}"></script>
 {% endblock %}

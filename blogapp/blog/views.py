@@ -25,17 +25,21 @@ def blog_details(req, id):
 
 def create_post(req):
     categories = Category.objects.all()
+    generated_content = None
     if req.method == "POST":
         title = req.POST.get('title')
-        content = req.POST.get('content')
         category_id = req.POST.get('category')
-        if category_id:
-            category = Category.objects.get(id=category_id)
-        else:
-            category = None
-        post = Post.objects.create(title=title, content=content, category=category)
-        return redirect('blog_details', id=post.id)
-    return render(req, 'blog/create_post.html', {'categories': categories})
+        if title:
+            prompt = f"Generate a blog post content based on the title: {title}"
+            generated_content = get_chatgpt_response(prompt)
+        if req.POST.get('action') == 'create' and generated_content:
+            if category_id:
+                category = Category.objects.get(id=category_id)
+            else:
+                category = None
+            post = Post.objects.create(title=title, content=generated_content, category=category)
+            return redirect('blog_details', id=post.id)
+    return render(req, 'blog/create_post.html', {'categories': categories, 'generated_content': generated_content})
 
 def update_post(req, id):
     post = get_object_or_404(Post, id=id)
