@@ -13,27 +13,38 @@
 
 {% block main_content %}
 <div class="container mt-5">
-    <form method="post">
+    <form method="post" enctype="multipart/form-data">
         {% csrf_token %}
         <div class="form-group">
             <label for="title">Title</label>
-            <input type="text" id="title" name="title" class="form-control" value="{{ request.POST.title }}">
+            <input type="text" id="title" name="title" class="form-control" value="{{ title }}">
         </div>
         <div class="form-group">
-            <label for="category">Category</label>
-            <select id="category" name="category" class="form-control">
-                <option value="">Select a category</option>
+            <label for="category" class="form-label">Category</label>
+            <select class="form-control" id="category" name="category" required>
                 {% for category in categories %}
-                    <option value="{{ category.id }}">{{ category.name }}</option>
+                <option value="{{ category.id }}" {% if category.id == post.category.id %}selected{% endif %}>{{ category.name }}</option>
                 {% endfor %}
             </select>
+        </div>
+        <div class="form-group">
+            <label for="new_category">Or Create New Category</label>
+            <input type="text" id="new_category" name="new_category" class="form-control">
         </div>
         <button type="submit" name="action" value="generate" class="btn btn-primary">Generate Content</button>
         {% if generated_content %}
             <div class="mt-4">
                 <h2>Generated Content</h2>
-                <textarea class="form-control" rows="10" readonly>{{ generated_content }}</textarea>
-                <input type="hidden" name="content" value="{{ generated_content }}">
+                <textarea class="form-control" name="content" rows="10">{{ generated_content }}</textarea>
+                <div class="form-group mt-3">
+                    <label for="uploaded_image">Upload Image</label>
+                    <input type="file" id="uploaded_image" name="uploaded_image" class="form-control-file">
+                </div>
+                {% if image_url %}
+                    <div class="mt-3">
+                        <img src="{{ image_url }}" alt="Uploaded Image" class="img-fluid">
+                    </div>
+                {% endif %}
                 <button type="submit" name="action" value="create" class="btn btn-success mt-3">Create Post</button>
             </div>
         {% endif %}

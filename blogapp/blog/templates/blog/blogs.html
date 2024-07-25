@@ -21,16 +21,13 @@
             {% for post in posts %}
             <div class="col-md-4">
                 <div class="card mb-4">
-                    {% if forloop.first %}
-                    <img class="card-img-top" src="{% static 'images/peakpx.jpg' %}" alt="Card image cap">
-                    {% elif forloop.counter == 2 %}
-                    <img class="card-img-top" src="{% static 'images/pic2.jpg' %}" alt="Card image cap">
+                    {% if post.image_url %}
+                    <img class="card-img-top" src="{{ post.image_url }}" alt="Card image cap">
                     {% else %}
-                    <img class="card-img-top" src="{% static 'images/pic3.jpg' %}" alt="Card image cap">
+                    <img class="card-img-top" src="{% static 'images/default.jpg' %}" alt="Card image cap">
                     {% endif %}
                     <div class="card-body">
                         <h5 class="card-title">{{ post.title }}</h5>
-                        <p class="card-text">{{ post.excerpt }}</p>
                         <p class="card-text"><small class="text-muted">{{ post.category.name|default_if_none:"Uncategorized" }}</small></p>
                         <a href="{% url 'blog_details' post.id %}" class="btn btn-primary">Read</a>
                         <a href="{% url 'update_post' post.id %}" class="btn btn-warning">Edit</a>
