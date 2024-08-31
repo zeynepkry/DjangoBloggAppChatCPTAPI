@@ -20,6 +20,14 @@
             <input type="text" id="title" name="title" class="form-control" value="{{ title }}">
         </div>
         <div class="form-group">
+            <label for="word_count">Word Count</label>
+            <input type="number" id="word_count" name="word_count" class="form-control" value="{{ word_count }}">
+        </div>
+        <div class="form-group">
+            <label for="subtopics">Subtopics</label>
+            <input type="text" id="subtopics" name="subtopics" class="form-control" value="{{ subtopics }}">
+        </div>
+        <div class="form-group">
             <label for="category" class="form-label">Category</label>
             <select class="form-control" id="category" name="category" required>
                 {% for category in categories %}
@@ -32,19 +40,31 @@
             <input type="text" id="new_category" name="new_category" class="form-control">
         </div>
         <button type="submit" name="action" value="generate" class="btn btn-primary">Generate Content</button>
+        
+        {% if generated_summary %}
+            <div class="mt-4">
+                <h2>Generated Summary</h2>
+                <textarea class="form-control" name="summary" rows="2">{{ generated_summary|safe }}</textarea>
+            </div>
+        {% endif %}
+
+
         {% if generated_content %}
             <div class="mt-4">
                 <h2>Generated Content</h2>
-                <textarea class="form-control" name="content" rows="10">{{ generated_content }}</textarea>
+                <textarea id="content" class="form-control" name="content">{{ generated_content|safe }}</textarea>
+                
                 <div class="form-group mt-3">
                     <label for="uploaded_image">Upload Image</label>
                     <input type="file" id="uploaded_image" name="uploaded_image" class="form-control-file">
                 </div>
+                
                 {% if image_url %}
                     <div class="mt-3">
                         <img src="{{ image_url }}" alt="Uploaded Image" class="img-fluid">
                     </div>
                 {% endif %}
+                
                 <button type="submit" name="action" value="create" class="btn btn-success mt-3">Create Post</button>
             </div>
         {% endif %}
@@ -53,5 +73,10 @@
 {% endblock %}
 
 {% block js_files %}
+    <script src="{% static 'ckeditor/ckeditor/ckeditor.js' %}"></script>
+    <script>
+        // Initialize CKEditor on the content textarea
+        CKEDITOR.replace('content');
+    </script>
     <script src="{% static 'js/script.js' %}"></script>
 {% endblock %}

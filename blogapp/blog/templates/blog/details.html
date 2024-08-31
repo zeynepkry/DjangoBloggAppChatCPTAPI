@@ -3,7 +3,11 @@
 {% block title %}{{ post.title }}{% endblock %}
 
 {% block content %}
-<h1>{{ post.title }}</h1>
-<p>{{ post.content }}</p>
-<a href="{% url 'index' %}">Back to Home</a>
+<div class="content-container">
+    <h1 class="post-title">{{ post.title }}</h1>
+    <div class="post-content">
+        {{ post.content|safe }}  <!-- Use the safe filter here -->
+    </div>
+    <a href="{% url 'index' %}" class="btn btn-primary">Back to Home</a>
+</div>
 {% endblock %}

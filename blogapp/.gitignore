@@ -11,3 +11,4 @@ db.sqlite3
 # Ignore media files (optional)
 *.avif
 
+myenv/
