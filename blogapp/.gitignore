@@ -12,3 +12,30 @@ db.sqlite3
 *.avif
 
 myenv/
+
+# Ignore the virtual environment
+myenv/
+
+# Ignore Python compiled files
+*.pyc
+__pycache__/
+
+# Ignore the database
+db.sqlite3
+*.sqlite3
+
+# Ignore media/uploads (if you have them)
+media/
+
+# Ignore static files
+staticfiles/
+
+# Ignore environment variable files
+.env
+
+# Ignore Django migrations
+**/migrations/*
+!**/migrations/__init__.py
+
+# Ignore macOS-specific files
+.DS_Store
