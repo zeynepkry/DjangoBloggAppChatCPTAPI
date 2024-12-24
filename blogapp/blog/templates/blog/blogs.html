@@ -8,45 +8,105 @@
 
 {% block main_content %}
 <div class="container">
-    <!-- Categories as keyword-style buttons -->
-    <div class="categories-bar">
-        <!-- Other category buttons with light gray background -->
-        {% for category in categories %}
-        <a href="{% url 'blogs_by_category' category.id %}" class="category-btn">{{ category.name }}</a>
-        {% endfor %}
-    </div>
-    <div class="row mt-3">
-        {% for post in posts %}
-        <div class="col-md-4">
-            <div class="card mb-4">
-                {% if post.image_url %}
-                <img class="card-img-top" src="{{ post.image_url }}" alt="Card image cap">
-                {% else %}
-                <img class="card-img-top" src="{% static 'images/default.jpg' %}" alt="Card image cap">
-                {% endif %}
-                <div class="card-body">
-                    <h5 class="card-title">{{ post.title }}</h5>
-                    <p class="card-text"><small class="text-muted">{{ post.category.name|default_if_none:"Uncategorized" }}</small></p>
-                    {% if post.summary %}
-                    <p class="card-text">{{ post.summary }}</p>
-                    {% else %}
-                    <p class="card-text">Summary not available.</p>
-                    {% endif %}
-                    <a href="{% url 'blog_details' post.id %}" class="btn btn-primary btn-sm">Read</a>
-                    {% if user.is_authenticated and user.is_staff %}
-                    <a href="{% url 'update_post' post.id %}" class="btn btn-warning btn-sm">Edit</a>
-                    <a href="{% url 'delete_post' post.id %}" class="btn btn-danger btn-sm">Delete</a>
-                    {% endif %}
-                </div>
+    <div class="row">
+        <!-- Sidebar for categories -->
+        <div class="col-md-3">
+            <div class="list-group">
+                <a href="{% url 'blogs' %}" class="list-group-item list-group-item-action active">
+                    All Categories
+                </a>
+                {% for category in categories %}
+                <a href="{% url 'blogs_by_category' category.id %}" class="list-group-item list-group-item-action">
+                    {{ category.name }}
+                </a>
+                {% endfor %}
             </div>
         </div>
-        {% endfor %}
-    </div>
 
-    <div class="col-12 text-center mt-4">
-        {% if user.is_authenticated and user.is_staff %}
-        <a href="{% url 'create_post' %}" class="btn btn-success" style="margin-bottom: 40px;">Create New Post</a>
-        {% endif %}
+        <!-- Blog posts -->
+        <div class="col-md-9">
+            <div class="row mt-3">
+                {% for post in posts %}
+                <div class="col-lg-4 col-md-6 col-sm-12 mb-4">
+                    <div class="card h-100">
+                        {% if post.image_url %}
+                        <img class="card-img-top" src="{{ post.image_url }}" alt="Card image cap">
+                        {% else %}
+                        <img class="card-img-top" src="{% static 'images/default.jpg' %}" alt="Card image cap">
+                        {% endif %}
+                        <div class="card-body d-flex flex-column">
+                            <h5 class="card-title">{{ post.title }}</h5>
+                            <p class="card-text">
+                                <small class="text-muted">
+                                    {{ post.created_at|date:"F j, Y, g:i a" }} <!-- New: Display creation date -->
+                                </small>
+                            </p>
+                            <p class="card-text"><small class="text-muted">{{ post.category.name|default_if_none:"Uncategorized" }}</small></p>
+                            {% if post.summary %}
+                            <p class="card-text">{{ post.summary }}</p>
+                            {% else %}
+                            <p class="card-text">Summary not available.</p>
+                            {% endif %}
+                            
+                            <!-- Button container at the bottom -->
+                            <div class="mt-auto">
+                                <a href="{% url 'blog_details' post.id %}" class="btn btn-primary btn-sm">Read</a>
+                                {% if user.is_authenticated and user.is_staff %}
+                                <a href="{% url 'update_post' post.id %}" class="btn btn-warning btn-sm">Edit</a>
+                                <a href="{% url 'delete_post' post.id %}" class="btn btn-danger btn-sm">Delete</a>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+            <div class="col-12 text-center mt-4">
+                {% if user.is_authenticated and user.is_staff %}
+                <a href="{% url 'create_post' %}" class="btn btn-success" >Create New Post</a>
+                {% endif %}
+            </div>
+            <!-- Pagination Controls -->
+            <div class="pagination mt-4">
+                <nav>
+                    <ul class="pagination justify-content-center">
+                        {% if posts.has_previous %}
+                        <li class="page-item">
+                            <a class="page-link" href="?page=1" aria-label="First">
+                                &laquo;&laquo;
+                            </a>
+                        </li>
+                        <li class="page-item">
+                            <a class="page-link" href="?page={{ posts.previous_page_number }}" aria-label="Previous">
+                                &laquo;
+                            </a>
+                        </li>
+                        {% endif %}
+
+                        {% for num in posts.paginator.page_range %}
+                        {% if num == posts.number %}
+                        <li class="page-item active"><a class="page-link">{{ num }}</a></li>
+                        {% elif num > posts.number|add:'-3' and num < posts.number|add:'3' %}
+                        <li class="page-item"><a class="page-link" href="?page={{ num }}">{{ num }}</a></li>
+                        {% endif %}
+                        {% endfor %}
+
+                        {% if posts.has_next %}
+                        <li class="page-item">
+                            <a class="page-link" href="?page={{ posts.next_page_number }}" aria-label="Next">
+                                &raquo;
+                            </a>
+                        </li>
+                        <li class="page-item">
+                            <a class="page-link" href="?page={{ posts.paginator.num_pages }}" aria-label="Last">
+                                &raquo;&raquo;
+                            </a>
+                        </li>
+                        {% endif %}
+                    </ul>
+                </nav>
+            </div>
+        </div>
     </div>
 </div>
 {% endblock %}

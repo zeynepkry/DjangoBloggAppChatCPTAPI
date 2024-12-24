@@ -14,7 +14,8 @@ import os
 from pathlib import Path
 from dotenv import load_dotenv
 import environ
-
+from datetime import timedelta
+from django.core.cache import cache
 # Initialize environment variables
 env = environ.Env()
 
@@ -28,7 +29,8 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 load_dotenv(os.path.join(BASE_DIR, '.env'))
 
 # Add your OpenAI API key
-OPENAI_API_KEY = os.getenv('OPENAI_API_KEY')
+OPENAI_API_KEY = os.getenv('SECRET_KEY')
+print(f"OpenAI API Key: {OPENAI_API_KEY}")
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/5.0/howto/deployment/checklist/
@@ -36,13 +38,7 @@ OPENAI_API_KEY = os.getenv('OPENAI_API_KEY')
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = env('SECRET_KEY')
 
-# SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = env('DEBUG', default=False, cast=bool)
-
-ALLOWED_HOSTS = []
-
-
-# Application definition
+ALLOWED_HOSTS = ['3.80.200.143', '127.0.0.1',]
 
 INSTALLED_APPS = [
     "django.contrib.admin",
@@ -63,6 +59,8 @@ CKEDITOR_CONFIGS = {
         'extraPlugins': 'codesnippet',  # Add any extra plugins you need
     },
 }
+
+
 
 
 MIDDLEWARE = [
@@ -139,9 +137,16 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/5.0/howto/static-files/
 
 STATIC_URL = '/static/'
+
 STATICFILES_DIRS = [
-    os.path.join(BASE_DIR, 'blogapp/static'),
+    os.path.join(BASE_DIR, 'blogapp/static'),  # Your custom static files
 ]
+
+
+
+
+STATIC_ROOT = os.path.join(BASE_DIR, 'static/')  # This is where 'collectstatic' will put all static files
+
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field
@@ -151,3 +156,15 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+
+
+CELERY_BROKER_URL = 'redis://127.0.0.1:6379'
+CELERY_RESULT_BACKEND = 'redis://127.0.0.1:6379'
+#broker_connection_retry_on_startup = True
+default_interval_hours = cache.get('celery_interval_hours', 2)  # Default to 2 hours if not set
+CELERY_BEAT_SCHEDULE = {
+    'generate_blog_posts_from_reddit_excel': {
+        'task': 'blogapp.tasks.generate_blog_posts_from_reddit_excel',
+        'schedule': timedelta(hours=default_interval_hours),
+    },
+}

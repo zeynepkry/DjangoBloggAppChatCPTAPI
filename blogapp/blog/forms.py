@@ -1,5 +1,6 @@
 from django import forms
 from .models import Post
+from ckeditor.widgets import CKEditorWidget  # Ensure you have CKEditor installed and imported
 
 class PostForm(forms.ModelForm):
     class Meta:
@@ -7,10 +8,11 @@ class PostForm(forms.ModelForm):
         fields = ['title', 'content', 'excerpt', 'summary']
 
 
-
-
 class BlogPostForm(forms.ModelForm):
+    # Explicitly set CKEditor for 'content' and 'summary' fields
+    content = forms.CharField(widget=CKEditorWidget())
+    summary = forms.CharField(widget=forms.Textarea()) 
+
     class Meta:
         model = Post
-        fields = ['title', 'content', 'category', 'summary', 'excerpt', 'image_url']
-        # The CKEditor widget is automatically applied to the 'content' field
+        fields = ['title', 'content', 'category', 'summary',]

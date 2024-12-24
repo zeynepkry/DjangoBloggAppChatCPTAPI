@@ -1,0 +1,122 @@
+/* base.css */
+body {
+    background-color: #f8f9fa;
+}
+
+.navbar-brand {
+    font-weight: bold;
+    font-size: 1.5em;
+}
+
+.nav-link {
+    color: #a1a7ad !important; /* Ensures this style has higher specificity */
+}
+
+.btn-custom {
+    background-color: #0062cc;
+    border-color: #0056b3;
+}
+
+.btn-custom:hover {
+    background-color: #0056b3;
+    border-color: #004085;
+}
+
+.category-btn {
+    margin: 0.5em 0.5em 0 0; /* Custom margin for category buttons */
+}
+
+/* Additional styles for category buttons if needed */
+.categories-bar {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+.category-btn {
+    padding: 10px 20px;
+    background-color: #b2d8b0; /* Light green */
+    color: #000000;
+    border-radius: 20px;
+    text-decoration: none;
+    display: inline-block;
+    margin-right: 10px;
+    margin-bottom: 10px;
+    text-align: center;
+    border: none;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+.category-btn:hover, .category-btn.active {
+    background-color: #98c29c;
+    color: #ffffff;
+}
+
+.category-btn.active {
+    background-color: #86af89;
+}
+.card-img-top {
+    width: 100%;
+    height: 15vw;
+    object-fit: cover;
+}
+.navbar-brand {
+    font-weight: bold;
+    font-size: 1.5em;
+}
+
+.content-container {
+    max-width: 800px;
+    margin: 20px auto;
+    padding: 20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Frame-like shadow around the content */
+    border: 1px solid #ddd; /* Light border for the frame */
+    background-color: #fff; /* Optional: change if you have a different background preference */
+}
+
+.post-title {
+    font-size: 2.5em; /* Larger font size for the title */
+    font-weight: bold; /* Bold font for title */
+    text-align: center; /* Center-align the title */
+    margin-bottom: 20px; /* Space below the title */
+}
+
+
+.post-content {
+    margin-bottom: 20px; /* Space above the back button */
+}
+
+.form-control div {
+    padding: 15px;
+    border: 1px solid #ccc;
+    margin-bottom: 20px;
+}
+
+ul, ol {
+    margin-left: 20px;
+}
+
+li {
+    margin-bottom: 10px;
+}
+
+/* Categories Sidebar */
+.list-group-item {
+    background-color: #f8f9fa;
+    border: none;
+    font-size: 16px;
+    padding: 10px 20px;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+.list-group-item.active {
+    background-color: #5cb85c;
+    color: white;
+}
+
+.list-group-item-action:hover {
+    background-color: #e2e6ea;
+    color: #333;
+}

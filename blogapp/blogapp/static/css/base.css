@@ -2,7 +2,10 @@
 body {
     background-color: #f8f9fa;
 }
-
+p {
+    margin-bottom: 1em; /* Adjust spacing as needed */
+    line-height: 1.6; /* For readability */
+}
 .navbar-brand {
     font-weight: bold;
     font-size: 1.5em;
@@ -100,4 +103,74 @@ ul, ol {
 
 li {
     margin-bottom: 10px;
+}
+
+/* Categories Sidebar */
+.list-group-item {
+    background-color: #f8f9fa;
+    border: none;
+    font-size: 16px;
+    padding: 10px 20px;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+.list-group-item.active {
+    background-color: #5cb85c;
+    color: white;
+}
+
+.list-group-item-action:hover {
+    background-color: #e2e6ea;
+    color: #333;
+}
+/* Responsive Card Styles */
+.card {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+
+.card-body {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.card-title {
+    font-size: 1.25em;
+    font-weight: bold;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+
+.card-text {
+    display: -webkit-box;
+    -webkit-line-clamp: 3; /* Limits to 3 lines */
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+/* Adjust image size */
+.card-img-top {
+    height: 180px;
+    object-fit: cover;
+    width: 100%;
+}
+
+/* Force single-column layout on screens below 768px */
+@media (max-width: 768px) {
+    .col-lg-4, .col-md-6, .col-sm-12 {
+        flex: 0 0 100%;  /* Full width */
+        max-width: 100%; /* Full width */
+    }
+
+    .col-md-3 {  /* Hide sidebar below 768px */
+        display: none;
+    }
+
+    .col-md-9 { /* Full width for main content */
+        width: 100%;
+    }
 }

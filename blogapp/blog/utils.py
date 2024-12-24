@@ -1,9 +1,10 @@
 import openai
 from django.conf import settings
 
-openai.api_key = settings.OPENAI_API_KEY
+openai.api_key = settings.SECRET_KEY
 
 def get_chatgpt_response(prompt):
+    print(f"API Key being used: {openai.api_key}")  # Add this line to debug
     response = openai.ChatCompletion.create(
         model="gpt-3.5-turbo",
         messages=[
